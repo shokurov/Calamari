@@ -49,7 +49,7 @@ namespace Calamari.Aws.Integration.S3
             var allKeys = next.Keys.Union(current.Keys).Distinct().ToList();
             var keysInBoth = allKeys.Where(key => next.ContainsKey(key) && current.ContainsKey(key)).ToList();
             var missingKeys = allKeys.Except(keysInBoth).ToList();
-            var differentValues = keysInBoth.Where(key => string.Compare(next[key], current[key], StringComparison.CurrentCultureIgnoreCase) != 0).ToList();
+            var differentValues = keysInBoth.Where(key => !string.Equals(next[key], current[key], StringComparison.OrdinalIgnoreCase)).ToList();
 
             return missingKeys.Count == 0 && differentValues.Count == 0;
         }
